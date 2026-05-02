@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 
-export const metadata: Metadata = { title: 'ライター一覧 | SHARE Quest' };
+export const metadata: Metadata = { title: 'ライター一覧' };
 export const revalidate = 60;
 
 export default async function WritersPage() {

@@ -6,7 +6,7 @@ import { ArticleCard } from '@/components/article/ArticleCard';
 import { SearchAndFilter } from '@/components/article/SearchAndFilter';
 import type { ArticleWithDetails } from '@/lib/types';
 
-export const metadata: Metadata = { title: '記事一覧 | SHARE Quest' };
+export const metadata: Metadata = { title: '記事一覧' };
 export const revalidate = 60;
 
 type Props = { searchParams: Promise<{ q?: string; tag?: string }> };

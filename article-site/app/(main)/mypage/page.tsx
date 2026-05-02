@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { ArticleCard } from '@/components/article/ArticleCard';
 import type { ArticleWithDetails } from '@/lib/types';
 
-export const metadata: Metadata = { title: 'お気に入り | SHARE Quest' };
+export const metadata: Metadata = { title: 'お気に入り' };
 
 export const revalidate = 60;
 

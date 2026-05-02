@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const supabase = await createClient();
   const { data } = await supabase.from('profiles').select('display_name, username').eq('username', username).single();
   if (!data) return { title: 'ライターが見つかりません' };
-  return { title: (data.display_name ?? data.username) + ' | SHARE Quest' };
+  return { title: (data.display_name ?? data.username) + '' };
 }
 
 export default async function WriterProfilePage({ params }: Props) {

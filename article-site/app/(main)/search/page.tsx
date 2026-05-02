@@ -5,7 +5,7 @@ import { ArticleCard } from '@/components/article/ArticleCard';
 import { SearchPage } from '@/components/article/SearchPage';
 import type { ArticleWithDetails } from '@/lib/types';
 
-export const metadata: Metadata = { title: '検索 | SHARE Quest' };
+export const metadata: Metadata = { title: '検索' };
 
 type Props = { searchParams: Promise<{ q?: string; tag?: string; writer?: string }> };
 
