@@ -20,8 +20,11 @@ export function Header({ user, profile }: HeaderProps) {
       <div className="max-w-6xl mx-auto px-5 py-0 flex items-center justify-between h-16">
 
         {/* ロゴ */}
-        <Link href="/" className="flex items-center shrink-0 group">
-          <Image src="/header.png" alt="SHARE Quest" width={180} height={48} className="h-10 w-auto object-contain group-hover:opacity-80 transition-opacity duration-200" priority />
+        <Link href="/" className="flex flex-col items-start shrink-0 group leading-tight">
+          <Image src="/header.png" alt="SHARE Quest" width={220} height={56} className="h-12 w-auto object-contain group-hover:opacity-80 transition-opacity duration-200 brightness-150" priority />
+          <span className="text-blue-300/60 text-[8px] tracking-widest font-medium mt-0.5">
+            — 学びの「楽しい！」をつなげる —
+          </span>
         </Link>
 
         {/* 右：デスクトップ */}
