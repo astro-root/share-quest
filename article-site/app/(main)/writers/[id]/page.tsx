@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { ArticleCard } from '@/components/article/ArticleCard';
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const supabase = await createClient();
   const { data } = await supabase.from('profiles').select('display_name, username').eq('id', id).single();
   if (!data) return { title: 'ライターが見つかりません' };
-  return { title: (data.display_name ?? data.username) + ' の記事一覧' };
+  return { title: (data.display_name ?? data.username) + ' | SHARE Quest' };
 }
 
 export default async function WriterProfilePage({ params }: Props) {
@@ -40,7 +41,6 @@ export default async function WriterProfilePage({ params }: Props) {
     .eq('status', 'published')
     .order('published_at', { ascending: false });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const articles: ArticleWithDetails[] = (data ?? []).map((row: any) => ({
     id: row.id, title: row.title, content: row.content, excerpt: row.excerpt,
     cover_image_url: row.cover_image_url, author_id: row.author_id,
@@ -52,33 +52,47 @@ export default async function WriterProfilePage({ params }: Props) {
   }));
 
   const displayName = profile.display_name ?? profile.username;
+  const roleLabel = profile.role === 'admin' ? '編集長' : 'ライター';
 
   return (
-    <div>
-      <div className="bg-white rounded-2xl shadow-sm p-8 mb-8">
-        <div className="flex items-center gap-5">
-          <div className="w-20 h-20 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
+    <div className="max-w-2xl mx-auto px-4 py-4">
+      {/* 戻るリンク */}
+      <div className="mb-4">
+        <Link href="/writers" className="text-xs text-gray-400 hover:text-blue-700 transition-colors">&lt; ライター一覧</Link>
+      </div>
+
+      {/* プロフィールカード */}
+      <div className="bg-white rounded-xl p-5 mb-6 border border-gray-100 shadow-sm">
+        <div className="flex items-start gap-4">
+          {/* アイコン */}
+          <div className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
             {profile.avatar_url ? (
-              <Image src={profile.avatar_url} alt={displayName} width={80} height={80} className="object-cover w-full h-full" />
+              <Image src={profile.avatar_url} alt={displayName} width={64} height={64} className="object-cover w-full h-full" />
             ) : (
-              <span className="text-3xl font-bold text-gray-400">{displayName[0].toUpperCase()}</span>
+              <span className="text-2xl font-bold text-gray-400">{displayName[0].toUpperCase()}</span>
             )}
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">{displayName}</h1>
-            <p className="text-sm text-gray-400 mb-2">@{profile.username}</p>
-            {profile.bio && <p className="text-gray-600 text-sm leading-relaxed">{profile.bio}</p>}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-0.5">
+              <h1 className="text-base font-bold text-gray-900">{displayName}</h1>
+              <span className="text-xs bg-blue-100 text-blue-700 font-semibold px-2 py-0.5 rounded-full">{roleLabel}</span>
+            </div>
+            <p className="text-xs text-gray-400 mb-2">@{profile.username}</p>
+            {profile.bio && <p className="text-sm text-gray-600 leading-relaxed">{profile.bio}</p>}
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-700">記事一覧</h2>
-        <span className="text-sm text-gray-400">{articles.length} 件</span>
+
+      {/* 記事一覧 */}
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-sm font-bold text-blue-800 border-b-2 border-blue-800 pb-1">この人の記事</h2>
+        <span className="text-xs text-gray-400">{articles.length}件</span>
       </div>
+
       {articles.length === 0 ? (
         <p className="text-center text-gray-400 py-12">まだ記事がありません</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div>
           {articles.map((a) => <ArticleCard key={a.id} article={a} />)}
         </div>
       )}
