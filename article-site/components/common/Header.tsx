@@ -18,7 +18,7 @@ export function Header({ user, profile }: HeaderProps) {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const q = inputRef.current?.value ?? '';
-    router.push('/articles' + (q ? '?q=' + encodeURIComponent(q) : ''));
+    router.push('/search' + (q ? '?q=' + encodeURIComponent(q) : ''));
   };
   return (
     <header className="sticky top-0 z-50 bg-blue-800 shadow-md">
