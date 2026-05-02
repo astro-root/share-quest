@@ -21,9 +21,9 @@ export default async function ProfileEditPage() {
   const isWriter = profile.role === 'writer' || profile.role === 'admin';
 
   return (
-    <div className="max-w-lg mx-auto">
-      <div className="bg-white rounded-2xl shadow-sm p-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-8">プロフィール編集</h1>
+    <div className="max-w-2xl mx-auto px-4 py-4">
+      <h1 className="text-base font-bold text-gray-900 pb-2 border-b border-gray-200 mb-6">プロフィール編集</h1>
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
         <ProfileEditForm profile={profile} isWriter={isWriter} />
       </div>
     </div>
