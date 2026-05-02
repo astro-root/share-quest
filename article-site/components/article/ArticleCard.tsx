@@ -72,7 +72,7 @@ export function ArticleCard({ article, initialIsFavorited = false, isLoggedIn = 
         <p className="text-xs text-gray-400 mt-2">
           {article.published_at ? formatDate(article.published_at) : formatDate(article.created_at)}
         </p>
-        <Link href={'/writers/' + author.id} className="text-xs text-gray-500 hover:text-blue-600 transition-colors mt-0.5 block">
+        <Link href={'/writers/' + author.username} className="text-xs text-gray-500 hover:text-blue-600 transition-colors mt-0.5 block">
           {displayName}
         </Link>
       </div>

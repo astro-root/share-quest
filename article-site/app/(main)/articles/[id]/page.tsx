@@ -134,7 +134,7 @@ export default async function ArticleDetailPage({ params }: Props) {
         </div>
 
         {/* この記事を書いた人（右寄せ） */}
-        <Link href={'/writers/' + author.id} className="ml-auto flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+        <Link href={'/writers/' + author.username} className="ml-auto flex items-center gap-1.5 hover:opacity-80 transition-opacity">
           <div className="w-6 h-6 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
             {author.avatar_url ? (
               <Image src={author.avatar_url} alt={authorName} width={24} height={24} className="object-cover w-full h-full" />
@@ -200,7 +200,7 @@ export default async function ArticleDetailPage({ params }: Props) {
               <p className="text-sm font-bold text-gray-900">{authorName}</p>
               {author.bio && <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{author.bio}</p>}
             </div>
-            <Link href={'/writers/' + author.id}
+            <Link href={'/writers/' + author.username}
               className="flex-shrink-0 text-xs border border-gray-200 rounded-lg px-2 py-1.5 text-gray-500 hover:border-blue-300 hover:text-blue-700 transition-colors whitespace-nowrap">
               プロフィールへ &gt;
             </Link>

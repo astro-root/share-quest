@@ -33,7 +33,7 @@ export default async function WritersPage() {
           <p className="text-sm font-bold text-gray-900">{name}</p>
           {p.bio && <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{p.bio}</p>}
         </div>
-        <Link href={'/writers/' + p.id}
+        <Link href={'/writers/' + p.username}
           className="flex-shrink-0 text-xs border border-gray-200 rounded-lg px-3 py-1.5 text-gray-600 hover:border-blue-300 hover:text-blue-700 transition-colors">
           記事一覧 &gt;
         </Link>
