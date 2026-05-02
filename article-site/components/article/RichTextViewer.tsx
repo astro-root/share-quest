@@ -1,15 +1,18 @@
-import DOMPurify from 'isomorphic-dompurify';
-
+'use client';
+import { useEffect, useState } from 'react';
+import DOMPurify from 'dompurify';
 export function RichTextViewer({ html }: { html: string }) {
-  const clean = DOMPurify.sanitize(html, {
-    ALLOWED_TAGS: [
-      'p','br','strong','em','u','s','h1','h2','h3','h4',
-      'ul','ol','li','blockquote','pre','code','a','img',
-      'iframe','div','span',
-    ],
-    ALLOWED_ATTR: ['href','src','class','style','target','rel','allow','allowfullscreen','frameborder','width','height'],
-  });
-
+  const [clean, setClean] = useState('');
+  useEffect(() => {
+    setClean(DOMPurify.sanitize(html, {
+      ALLOWED_TAGS: [
+        'p','br','strong','em','u','s','h1','h2','h3','h4',
+        'ul','ol','li','blockquote','pre','code','a','img',
+        'iframe','div','span',
+      ],
+      ALLOWED_ATTR: ['href','src','class','style','target','rel','allow','allowfullscreen','frameborder','width','height'],
+    }));
+  }, [html]);
   return (
     <div
       className="prose prose-gray max-w-none
