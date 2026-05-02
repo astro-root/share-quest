@@ -104,7 +104,7 @@ export default async function ArticlesPage({ searchParams }: Props) {
                   <Link href="/articles?featured=1" className="text-xs text-gray-400 hover:text-blue-700 transition-colors">もっと見る &gt;</Link>
                 </div>
                 <div className="space-y-0">
-                  {featured.map((a) => <ArticleCard key={a.id} article={a} featured />)}
+                  {featured.map((a) => <ArticleCard key={a.id} article={a} />)}
                 </div>
               </section>
             )}

@@ -58,6 +58,7 @@ export default async function ArticleDetailPage({ params }: Props) {
 
   let isFavorited = false;
   let isLiked = false;
+  let favoritesCount = 0;
   let userRole: string | null = null;
 
   if (user) {
@@ -76,13 +77,10 @@ export default async function ArticleDetailPage({ params }: Props) {
   const { count: likesCount } = await supabase
     .from('likes').select('id', { count: 'exact', head: true }).eq('article_id', id);
 
-  const { data: commentsData } = await supabase
-    .from('comments')
-    .select('id, article_id, user_id, content, created_at, updated_at, profiles ( username, display_name, avatar_url )')
-    .eq('article_id', id)
-    .order('created_at', { ascending: true });
+  const { count: favCount } = await supabase
+    .from('favorites').select('id', { count: 'exact', head: true }).eq('article_id', id);
 
-  const comments = (commentsData ?? []) as unknown as Comment[];
+  favoritesCount = favCount ?? 0;
 
   const author = article.profiles as unknown as {
     id: string; username: string; display_name: string | null; avatar_url: string | null; bio: string | null;
@@ -98,38 +96,44 @@ export default async function ArticleDetailPage({ params }: Props) {
 
       {/* カバー画像 */}
       {article.cover_image_url && (
-        <div className="relative w-full h-52 sm:h-64 rounded-xl overflow-hidden mb-4">
+        <div className="relative w-full h-48 sm:h-64 rounded-xl overflow-hidden mb-4">
           <Image src={article.cover_image_url} alt={article.title} fill className="object-cover" priority />
         </div>
       )}
 
-      {/* タイトル・あらすじ */}
+      {/* タイトル */}
       <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-2">{article.title}</h1>
+
+      {/* あらすじ */}
       {article.excerpt && (
-        <p className="text-sm text-gray-500 mb-3 leading-relaxed">{article.excerpt}</p>
+        <p className="text-sm text-gray-500 mb-4 leading-relaxed">{article.excerpt}</p>
       )}
 
-      {/* メタ情報行 */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-3 pb-3 border-b border-gray-100">
+      {/* いいね数・お気に入り数・タグ・著者 */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4 pb-4 border-b border-gray-100">
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1 text-xs text-gray-500">
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          {/* いいね数 */}
+          <span className="flex items-center gap-1 text-sm text-gray-500">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
-            {article.view_count.toLocaleString()}
+            {(likesCount ?? 0).toLocaleString()}
           </span>
-          <span className="flex items-center gap-1 text-xs text-gray-500">
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          {/* お気に入り数 */}
+          <span className="flex items-center gap-1 text-sm text-gray-500">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
             </svg>
-            {likesCount ?? 0}
+            {favoritesCount.toLocaleString()}
           </span>
         </div>
+
+        {/* タグ */}
         <div className="flex flex-wrap gap-1.5">
           {tags.map((tag) => <TagBadge key={tag.id} tag={tag} />)}
         </div>
-        {/* 著者（右寄せ） */}
+
+        {/* この記事を書いた人（右寄せ） */}
         <Link href={'/writers/' + author.id} className="ml-auto flex items-center gap-1.5 hover:opacity-80 transition-opacity">
           <div className="w-6 h-6 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
             {author.avatar_url ? (
@@ -138,7 +142,7 @@ export default async function ArticleDetailPage({ params }: Props) {
               <span className="text-gray-500 text-[10px] font-bold">{authorName[0].toUpperCase()}</span>
             )}
           </div>
-          <span className="text-xs font-medium text-gray-700">{authorName}</span>
+          <span className="text-xs text-gray-500">この記事を書いた人</span>
         </Link>
       </div>
 
@@ -154,44 +158,54 @@ export default async function ArticleDetailPage({ params }: Props) {
       )}
 
       {/* 本文 */}
-      <div className="mb-8">
+      <div className="mb-10">
         <ArticleContent content={article.content} />
       </div>
 
-      {/* シェア・いいね・保存 */}
-      <div className="flex flex-wrap items-center gap-3 py-4 border-t border-b border-gray-100 mb-6">
-        <p className="text-xs font-semibold text-gray-500 mr-1">この記事を共有 &gt;</p>
-        <XShareButton title={article.title} url={siteUrl + '/articles/' + article.id} />
-        {user ? (
-          <>
-            <LikeButton articleId={article.id} initialIsLiked={isLiked} initialCount={likesCount ?? 0} />
-            <FavoriteButton articleId={article.id} initialIsFavorited={isFavorited} />
-          </>
-        ) : (
-          <Link href="/login" className="text-xs text-blue-600 hover:underline">ログインしていいね・保存できます</Link>
-        )}
-      </div>
-
-      {/* 著者カード */}
-      <div className="bg-gray-50 rounded-xl p-4 flex items-center gap-4">
-        <p className="text-xs font-semibold text-gray-400 shrink-0">この記事を書いた人 &gt;</p>
-        <Link href={'/writers/' + author.id} className="flex items-center gap-3 flex-1 min-w-0 group">
-          <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
-            {author.avatar_url ? (
-              <Image src={author.avatar_url} alt={authorName} width={40} height={40} className="object-cover w-full h-full" />
+      {/* フッター：シェア | 著者カード */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-100 pt-6">
+        {/* この記事を共有 */}
+        <div className="flex flex-col gap-3">
+          <p className="text-xs font-semibold text-gray-500">この記事を共有 &gt;</p>
+          <div className="flex items-center gap-3">
+            <XShareButton title={article.title} url={siteUrl + '/articles/' + article.id} />
+            {/* LINEシェア */}
+            <a href={'https://line.me/R/msg/text/?' + encodeURIComponent(article.title + ' ' + siteUrl + '/articles/' + article.id)} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 text-xs font-medium transition-colors">LINE</a>
+          </div>
+          {/* いいね・保存 */}
+          <div className="flex items-center gap-3 mt-1">
+            {user ? (
+              <>
+                <LikeButton articleId={article.id} initialIsLiked={isLiked} initialCount={likesCount ?? 0} />
+                <FavoriteButton articleId={article.id} initialIsFavorited={isFavorited} />
+              </>
             ) : (
-              <span className="text-gray-500 font-bold">{authorName[0].toUpperCase()}</span>
+              <Link href="/login" className="text-xs text-blue-600 hover:underline">ログインしていいね・保存できます</Link>
             )}
           </div>
-          <div className="min-w-0">
-            <p className="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition-colors">{authorName}</p>
-            {author.bio && <p className="text-xs text-gray-500 line-clamp-1">{author.bio}</p>}
+        </div>
+
+        {/* この記事を書いた人 */}
+        <div className="flex flex-col gap-2">
+          <p className="text-xs font-semibold text-gray-500">この記事を書いた人 &gt;</p>
+          <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
+            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
+              {author.avatar_url ? (
+                <Image src={author.avatar_url} alt={authorName} width={40} height={40} className="object-cover w-full h-full" />
+              ) : (
+                <span className="text-gray-500 font-bold">{authorName[0].toUpperCase()}</span>
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold text-gray-900">{authorName}</p>
+              {author.bio && <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{author.bio}</p>}
+            </div>
+            <Link href={'/writers/' + author.id}
+              className="flex-shrink-0 text-xs border border-gray-200 rounded-lg px-2 py-1.5 text-gray-500 hover:border-blue-300 hover:text-blue-700 transition-colors whitespace-nowrap">
+              プロフィールへ &gt;
+            </Link>
           </div>
-        </Link>
-        <Link href={'/writers/' + author.id}
-          className="flex-shrink-0 text-xs border border-gray-300 rounded-lg px-3 py-1.5 text-gray-600 hover:border-blue-300 hover:text-blue-700 transition-colors">
-          記事一覧 &gt;
-        </Link>
+        </div>
       </div>
     </div>
   );
