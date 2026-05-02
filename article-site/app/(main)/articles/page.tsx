@@ -60,55 +60,63 @@ export default async function ArticlesPage({ searchParams }: Props) {
   const featured = articles.filter((a) => a.is_featured);
   const regular = articles.filter((a) => !a.is_featured);
   const isFiltering = q !== '' || tag !== '';
+  const popular = [...articles].sort((a, b) => b.view_count - a.view_count).slice(0, 5);
 
   return (
-    <div>
-      {/* ヘッダー */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">記事一覧</h1>
-        <p className="text-gray-400 text-sm mt-1">学びの「楽しい！」をつなげる</p>
-      </div>
+    <div className="max-w-6xl mx-auto px-4 py-6 flex gap-8">
+      {/* メインコンテンツ */}
+      <div className="flex-1 min-w-0">
+        {/* 検索・タグフィルター */}
+        <Suspense fallback={null}>
+          <SearchAndFilter tags={tags} currentQ={q} currentTag={tag} />
+        </Suspense>
 
-      {/* 検索・タグフィルター */}
-      <Suspense fallback={null}>
-        <SearchAndFilter tags={tags} currentQ={q} currentTag={tag} />
-      </Suspense>
-
-      {error ? (
-        <p className="text-center text-red-500 py-16">記事の取得に失敗しました</p>
-      ) : articles.length === 0 ? (
-        <p className="text-center text-gray-400 py-16">
-          {isFiltering ? '条件に一致する記事がありません' : 'まだ記事がありません'}
-        </p>
-      ) : (
-        <>
-          {/* おすすめセクション（フィルター中は非表示） */}
-          {!isFiltering && featured.length > 0 && (
-            <section className="mb-10">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-yellow-400 text-lg">★</span>
-                <h2 className="text-lg font-bold text-gray-800">おすすめ記事</h2>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {featured.map((a) => <ArticleCard key={a.id} article={a} featured />)}
-              </div>
-            </section>
-          )}
-
-          {/* 新着セクション */}
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-gray-800">
+        {error ? (
+          <p className="text-center text-red-500 py-16">記事の取得に失敗しました</p>
+        ) : articles.length === 0 ? (
+          <p className="text-center text-gray-400 py-16">
+            {isFiltering ? '条件に一致する記事がありません' : 'まだ記事がありません'}
+          </p>
+        ) : (
+          <>
+            {!isFiltering && featured.length > 0 && (
+              <section className="mb-8">
+                <h2 className="text-lg font-bold text-blue-800 border-b-2 border-blue-800 pb-1 mb-4">おすすめ記事</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {featured.map((a) => <ArticleCard key={a.id} article={a} featured />)}
+                </div>
+              </section>
+            )}
+            <section>
+              <h2 className="text-lg font-bold text-blue-800 border-b-2 border-blue-800 pb-1 mb-2">
                 {isFiltering ? '検索結果' : '新着記事'}
               </h2>
-              <span className="text-sm text-gray-400">{(isFiltering ? articles : regular).length} 件</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {(isFiltering ? articles : regular).map((a) => <ArticleCard key={a.id} article={a} />)}
-            </div>
-          </section>
-        </>
-      )}
+              <div>
+                {(isFiltering ? articles : regular).map((a) => <ArticleCard key={a.id} article={a} />)}
+              </div>
+            </section>
+          </>
+        )}
+      </div>
+
+      {/* サイドバー */}
+      <aside className="w-60 flex-shrink-0 hidden lg:block">
+        <div className="sticky top-20">
+          <h3 className="text-base font-bold text-blue-800 border-b-2 border-blue-800 pb-1 mb-3">ランキング</h3>
+          <ol className="space-y-3">
+            {popular.map((a, i) => (
+              <li key={a.id} className="flex gap-2 items-start">
+                <span className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold text-white ${i === 0 ? 'bg-yellow-400' : i === 1 ? 'bg-gray-400' : i === 2 ? 'bg-amber-600' : 'bg-blue-200 text-blue-800'}`}>
+                  {i + 1}
+                </span>
+                <a href={'/articles/' + a.id} className="text-xs text-gray-700 hover:text-blue-700 transition-colors line-clamp-3 leading-snug font-medium">
+                  {a.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </aside>
     </div>
   );
 }
