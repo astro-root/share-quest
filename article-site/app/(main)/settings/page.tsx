@@ -65,12 +65,18 @@ export default function SettingsPage() {
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
           <p className="text-sm font-semibold text-gray-700 mb-3">アカウント</p>
           {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              disabled={loading}
-              className="inline-block rounded-lg bg-red-500 text-white px-4 py-2 text-sm font-medium hover:bg-red-600 transition-colors disabled:opacity-50">
-              {loading ? 'ログアウト中...' : 'ログアウト'}
-            </button>
+            <div className="flex flex-col gap-2">
+              <Link href="/profile/edit"
+                className="inline-block rounded-lg bg-blue-800 text-white px-4 py-2 text-sm font-medium hover:bg-blue-900 transition-colors w-fit">
+                プロフィール編集
+              </Link>
+              <button
+                onClick={handleLogout}
+                disabled={loading}
+                className="inline-block rounded-lg bg-red-500 text-white px-4 py-2 text-sm font-medium hover:bg-red-600 transition-colors disabled:opacity-50 w-fit">
+                {loading ? 'ログアウト中...' : 'ログアウト'}
+              </button>
+            </div>
           ) : (
             <Link href="/login"
               className="inline-block rounded-lg bg-blue-800 text-white px-4 py-2 text-sm font-medium hover:bg-blue-900 transition-colors">

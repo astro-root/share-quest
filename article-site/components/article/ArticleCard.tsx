@@ -33,7 +33,7 @@ export function ArticleCard({ article, initialIsFavorited = false, isLoggedIn = 
   };
 
   return (
-    <div className="relative flex items-stretch border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-md transition-shadow">
+    <div className="relative flex items-stretch border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-[#1e293b] hover:shadow-md transition-shadow">
       {/* ☆ 右上 */}
       <button
         onClick={handleFavorite}
@@ -53,7 +53,7 @@ export function ArticleCard({ article, initialIsFavorited = false, isLoggedIn = 
           {article.cover_image_url ? (
             <Image src={article.cover_image_url} alt={article.title} fill className="object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-blue-50 min-h-[80px]">
+            <div className="w-full h-full flex items-center justify-center bg-blue-50 dark:bg-[#1e3a5f] min-h-[80px]">
               <svg className="w-8 h-8 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -65,7 +65,7 @@ export function ArticleCard({ article, initialIsFavorited = false, isLoggedIn = 
       {/* タイトル・メタ情報（右） */}
       <div className="flex-1 min-w-0 p-3 pr-8">
         <Link href={'/articles/' + article.id}>
-          <p className="text-base font-bold text-gray-900 hover:text-blue-700 transition-colors leading-snug line-clamp-3">
+          <p className="text-base font-bold text-gray-900 dark:text-gray-100 hover:text-blue-400 transition-colors leading-snug line-clamp-3">
             {article.title}
           </p>
         </Link>

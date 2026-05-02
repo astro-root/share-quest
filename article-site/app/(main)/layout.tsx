@@ -17,7 +17,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f172a] dark:text-gray-100">
       <Header user={user} profile={profile} />
       <main className="w-full">{children}</main>
     </div>

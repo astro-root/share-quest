@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/lib/types';
@@ -19,13 +20,8 @@ export function Header({ user, profile }: HeaderProps) {
       <div className="max-w-6xl mx-auto px-5 py-0 flex items-center justify-between h-16">
 
         {/* ロゴ */}
-        <Link href="/" className="flex flex-col items-start leading-tight group shrink-0">
-          <span className="text-white font-black text-lg tracking-widest uppercase group-hover:text-blue-300 transition-colors duration-200">
-            SHARE<span className="text-blue-400"> Quest</span>
-          </span>
-          <span className="text-blue-300/60 text-[8px] tracking-widest font-medium">
-            — 学びの「楽しい！」をつなげる —
-          </span>
+        <Link href="/" className="flex items-center shrink-0 group">
+          <Image src="/header.png" alt="SHARE Quest" width={180} height={48} className="h-10 w-auto object-contain group-hover:opacity-80 transition-opacity duration-200" priority />
         </Link>
 
         {/* 右：デスクトップ */}
