@@ -290,3 +290,17 @@ export async function updateArticle(prevState: ArticleFormState, formData: FormD
   revalidatePath(`/articles/${articleId}`);
   redirect(`/articles/${articleId}`);
 }
+
+export async function createTag(name: string): Promise<{ id: string; name: string; slug: string } | null> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+  const slug = name.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\u3040-\u9fff-]/g, '');
+  const { data, error } = await supabase
+    .from('tags')
+    .insert({ name: name.trim(), slug })
+    .select('id, name, slug')
+    .single();
+  if (error) return null;
+  return data;
+}
