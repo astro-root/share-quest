@@ -15,7 +15,7 @@ export default async function MyPage() {
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase.from('profiles').select('role, display_name, username, avatar_url').eq('id', user.id).single();
-  if (profile?.role === 'writer' || profile?.role === 'admin') redirect('/profile/edit');
+  if (profile?.role === 'writer' || profile?.role === 'admin') redirect('/settings');
 
   const selectFields = `
     id, title, content, excerpt, cover_image_url, author_id, status,
@@ -48,7 +48,7 @@ export default async function MyPage() {
       {/* ヘッダー */}
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
         <h1 className="text-base font-bold text-gray-900 dark:text-gray-100">お気に入り</h1>
-        <Link href="/profile/edit" className="text-xs text-gray-400 dark:text-gray-500 hover:text-blue-700 transition-colors">プロフィール編集</Link>
+        <Link href="/settings" className="text-xs text-gray-400 dark:text-gray-500 hover:text-blue-700 transition-colors">プロフィール編集</Link>
       </div>
 
       {/* 未ログイン誘導 */}
