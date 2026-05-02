@@ -22,8 +22,8 @@ export default async function ProfileEditPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-4">
-      <h1 className="text-base font-bold text-gray-900 pb-2 border-b border-gray-200 mb-6">プロフィール編集</h1>
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+      <h1 className="text-base font-bold text-gray-900 dark:text-gray-100 pb-2 border-b border-gray-200 dark:border-gray-700 mb-6">プロフィール編集</h1>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-6">
         <ProfileEditForm profile={profile} isWriter={isWriter} />
       </div>
     </div>

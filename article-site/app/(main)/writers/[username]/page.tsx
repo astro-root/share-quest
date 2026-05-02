@@ -59,36 +59,36 @@ export default async function WriterProfilePage({ params }: Props) {
   return (
     <div className="max-w-2xl mx-auto px-4 py-4">
       <div className="mb-4">
-        <Link href="/writers" className="text-xs text-gray-400 hover:text-blue-700 transition-colors">&lt; ライター一覧</Link>
+        <Link href="/writers" className="text-xs text-gray-400 hover:text-blue-700 dark:hover:text-blue-400 transition-colors">&lt; ライター一覧</Link>
       </div>
 
-      <div className="bg-white rounded-xl p-5 mb-6 border border-gray-100 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-5 mb-6 border border-gray-100 dark:border-gray-700 shadow-sm">
         <div className="flex items-start gap-4">
-          <div className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
+          <div className="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden flex-shrink-0 flex items-center justify-center">
             {profile.avatar_url ? (
               <Image src={profile.avatar_url} alt={displayName} width={64} height={64} className="object-cover w-full h-full" />
             ) : (
-              <span className="text-2xl font-bold text-gray-400">{displayName[0].toUpperCase()}</span>
+              <span className="text-2xl font-bold text-gray-400 dark:text-gray-500">{displayName[0].toUpperCase()}</span>
             )}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
-              <h1 className="text-base font-bold text-gray-900">{displayName}</h1>
-              <span className="text-xs bg-blue-100 text-blue-700 font-semibold px-2 py-0.5 rounded-full">{roleLabel}</span>
+              <h1 className="text-base font-bold text-gray-900 dark:text-gray-100">{displayName}</h1>
+              <span className="text-xs bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-semibold px-2 py-0.5 rounded-full">{roleLabel}</span>
             </div>
-            <p className="text-xs text-gray-400 mb-2">@{profile.username}</p>
-            {profile.bio && <p className="text-sm text-gray-600 leading-relaxed">{profile.bio}</p>}
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">@{profile.username}</p>
+            {profile.bio && <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{profile.bio}</p>}
           </div>
         </div>
       </div>
 
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-bold text-blue-800 border-b-2 border-blue-800 pb-1">この人の記事</h2>
-        <span className="text-xs text-gray-400">{articles.length}件</span>
+        <h2 className="text-sm font-bold text-blue-800 dark:text-blue-400 border-b-2 border-blue-800 dark:border-blue-400 pb-1">この人の記事</h2>
+        <span className="text-xs text-gray-400 dark:text-gray-500">{articles.length}件</span>
       </div>
 
       {articles.length === 0 ? (
-        <p className="text-center text-gray-400 py-12">まだ記事がありません</p>
+        <p className="text-center text-gray-400 dark:text-gray-500 py-12">まだ記事がありません</p>
       ) : (
         <div className="space-y-3">
           {articles.map((a) => <ArticleCard key={a.id} article={a} isLoggedIn={!!user} />)}
