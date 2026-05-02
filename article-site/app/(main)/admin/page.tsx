@@ -26,12 +26,12 @@ export default async function AdminPage() {
   ]);
 
   return (
-    <div className="space-y-10">
-      <h1 className="text-2xl font-bold text-gray-900">管理画面</h1>
+    <div className="max-w-2xl mx-auto px-4 py-4 space-y-8">
+      <h1 className="text-base font-bold text-gray-900 pb-2 border-b border-gray-200">管理画面</h1>
 
       {/* 承認待ち */}
       <section>
-        <h2 className="text-lg font-semibold text-gray-700 mb-4">
+        <h2 className="text-sm font-bold text-blue-800 border-b-2 border-blue-800 pb-1 mb-3">
           承認待ち記事
           {pendingArticles && pendingArticles.length > 0 && (
             <span className="ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 text-white text-xs font-bold">
@@ -63,7 +63,7 @@ export default async function AdminPage() {
 
       {/* おすすめ設定 */}
       <section>
-        <h2 className="text-lg font-semibold text-gray-700 mb-4">おすすめ記事の設定</h2>
+        <h2 className="text-sm font-bold text-blue-800 border-b-2 border-blue-800 pb-1 mb-3">おすすめ記事の設定</h2>
         <div className="bg-white rounded-xl shadow-sm divide-y divide-gray-100">
           {!publishedArticles || publishedArticles.length === 0 ? (
             <p className="text-sm text-gray-400 py-4 text-center">公開済みの記事がありません</p>
@@ -75,13 +75,13 @@ export default async function AdminPage() {
               <div key={article.id} className="flex items-center gap-4 px-5 py-4">
                 <div className="flex-1 min-w-0">
                   <Link href={'/articles/' + article.id}
-                    className="font-medium text-gray-800 hover:text-indigo-600 transition-colors line-clamp-1 text-sm">
+                    className="font-medium text-gray-800 hover:text-blue-700 transition-colors line-clamp-1 text-sm">
                     {article.title}
                   </Link>
                   <p className="text-xs text-gray-400 mt-0.5">{authorName}</p>
                 </div>
                 <FeaturedToggle articleId={article.id} initialIsFeatured={article.is_featured} />
-                <Link href={'/articles/' + article.id + '/edit'} className="text-xs text-indigo-500 hover:underline whitespace-nowrap">編集</Link>
+                <Link href={'/articles/' + article.id + '/edit'} className="text-xs text-blue-600 hover:underline whitespace-nowrap">編集</Link>
                 <DeleteArticleButton articleId={article.id} />
               </div>
             );
@@ -91,14 +91,14 @@ export default async function AdminPage() {
 
       {/* ユーザー管理 */}
       <section>
-        <h2 className="text-lg font-semibold text-gray-700 mb-4">ユーザー管理</h2>
+        <h2 className="text-sm font-bold text-blue-800 border-b-2 border-blue-800 pb-1 mb-3">ユーザー管理</h2>
         <div className="bg-white rounded-xl shadow-sm divide-y divide-gray-100">
           {(profiles ?? []).map((p) => {
             const displayName = p.display_name ?? p.username;
             const roleBadgeColor = p.role === 'admin'
               ? 'bg-purple-100 text-purple-700'
               : p.role === 'writer'
-              ? 'bg-indigo-100 text-indigo-700'
+              ? 'bg-blue-100 text-blue-700'
               : 'bg-gray-100 text-gray-500';
             const roleLabel = p.role === 'admin' ? '編集長' : p.role === 'writer' ? 'ライター' : '閲覧者';
             return (
