@@ -62,8 +62,8 @@ export default function SettingsPage() {
 
       <div className="space-y-4">
         {/* アカウント */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-          <p className="text-sm font-semibold text-gray-700 mb-3">アカウント</p>
+        <div className="bg-white dark:bg-[#1e293b] rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-4">
+          <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">アカウント</p>
           {isLoggedIn ? (
             <div className="flex flex-col gap-2">
               <Link href="/profile/edit"
@@ -86,8 +86,8 @@ export default function SettingsPage() {
         </div>
 
         {/* 文字サイズ */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-          <p className="text-sm font-semibold text-gray-700 mb-3">文字サイズ</p>
+        <div className="bg-white dark:bg-[#1e293b] rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-4">
+          <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">文字サイズ</p>
           <div className="flex gap-2">
             {(['small', 'medium', 'large'] as const).map((size) => {
               const label = size === 'small' ? '小' : size === 'medium' ? '中' : '大';
@@ -98,7 +98,7 @@ export default function SettingsPage() {
                   className={['flex-1 py-2 rounded-lg border text-sm font-medium transition-colors',
                     fontSize === size
                       ? 'bg-blue-800 text-white border-blue-800'
-                      : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300'
+                      : 'bg-white dark:bg-[#0f172a] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-blue-300'
                   ].join(' ')}>
                   {label}
                 </button>
@@ -108,9 +108,9 @@ export default function SettingsPage() {
         </div>
 
         {/* ダークモード */}
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+        <div className="bg-white dark:bg-[#1e293b] rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm p-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-gray-700">ダークモード</p>
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">ダークモード</p>
             <button
               onClick={() => handleDarkMode(!darkMode)}
               className={['relative inline-flex w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none',

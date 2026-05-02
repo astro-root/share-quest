@@ -35,7 +35,7 @@ export default async function WritersPage() {
         </div>
         <Link href={'/writers/' + p.username}
           className="flex-shrink-0 text-xs border border-gray-200 rounded-lg px-3 py-1.5 text-gray-600 hover:border-blue-300 hover:text-blue-700 transition-colors">
-          記事一覧 &gt;
+          一覧 &gt;
         </Link>
       </div>
     );
@@ -45,8 +45,6 @@ export default async function WritersPage() {
     <div className="max-w-2xl mx-auto px-4 py-4">
       <div className="flex items-center justify-between mb-4 text-xs text-gray-500 border-b border-gray-200 pb-2">
         <div className="flex gap-4">
-          <Link href="/articles" className="hover:text-blue-700 transition-colors">記事</Link>
-          <Link href="/writers" className="text-blue-800 font-semibold border-b-2 border-blue-800 pb-1">ライター</Link>
         </div>
       </div>
 
