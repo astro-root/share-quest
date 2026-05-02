@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/common/Header';
+import { Footer } from '@/components/common/Footer';
 import type { Profile } from '@/lib/types';
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
@@ -17,9 +18,10 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0f172a] dark:text-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-[#0f172a] dark:text-gray-100">
       <Header user={user} profile={profile} />
-      <main className="w-full">{children}</main>
+      <main className="w-full flex-1">{children}</main>
+      <Footer />
     </div>
   );
 }

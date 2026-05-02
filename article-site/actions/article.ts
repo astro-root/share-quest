@@ -146,7 +146,7 @@ export async function toggleFavorite(_: unknown, formData: FormData): Promise<{ 
   }
 }
 
-export async function toggleLike(_: unknown, formData: FormData): Promise<{ error?: string; isLiked?: boolean }> {
+export async function toggleLike(_: unknown, formData: FormData): Promise<{ error?: string; isLiked?: boolean; count?: number }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: '未ログインです' };
