@@ -65,14 +65,6 @@ export default async function ArticlesPage({ searchParams }: Props) {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-4 lg:max-w-6xl">
-      {/* ヘッダーナビ */}
-      <div className="flex items-center justify-between mb-4 text-xs text-gray-500 border-b border-gray-200 pb-2">
-        <div className="flex gap-4">
-          <Link href="/articles" className="text-blue-800 font-semibold border-b-2 border-blue-800 pb-1">記事</Link>
-          <Link href="/writers" className="hover:text-blue-700 transition-colors">ライター</Link>
-        </div>
-      </div>
-
       {/* 検索・タグフィルター */}
       <Suspense fallback={null}>
         <SearchAndFilter tags={tags} currentQ={q} currentTag={tag} />
