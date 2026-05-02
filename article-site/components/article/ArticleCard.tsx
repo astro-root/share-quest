@@ -65,16 +65,19 @@ export function ArticleCard({ article, initialIsFavorited = false, isLoggedIn = 
       {/* タイトル・メタ情報（右） */}
       <div className="flex-1 min-w-0 p-3 pr-8">
         <Link href={'/articles/' + article.id}>
-          <p className="text-sm font-bold text-gray-900 hover:text-blue-700 transition-colors leading-snug line-clamp-3">
+          <p className="text-base font-bold text-gray-900 hover:text-blue-700 transition-colors leading-snug line-clamp-3">
             {article.title}
           </p>
         </Link>
-        <p className="text-xs text-gray-400 mt-2">
-          {article.published_at ? formatDate(article.published_at) : formatDate(article.created_at)}
-        </p>
-        <Link href={'/writers/' + author.username} className="text-xs text-gray-500 hover:text-blue-600 transition-colors mt-0.5 block">
-          {displayName}
-        </Link>
+        <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+          <span className="text-xs text-gray-400">
+            {article.published_at ? formatDate(article.published_at) : formatDate(article.created_at)}
+          </span>
+          <span className="text-xs text-gray-300">·</span>
+          <Link href={'/writers/' + author.username} className="text-xs text-gray-500 hover:text-blue-600 transition-colors">
+            {displayName}
+          </Link>
+        </div>
       </div>
     </div>
   );

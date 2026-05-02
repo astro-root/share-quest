@@ -1,8 +1,13 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { ArticleCard } from '@/components/article/ArticleCard';
 import type { ArticleWithDetails } from '@/lib/types';
+
+export const metadata: Metadata = { title: 'お気に入り | SHARE Quest' };
+
+export const revalidate = 60;
 
 export default async function MyPage() {
   const supabase = await createClient();
