@@ -19,7 +19,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   return (
     <div className="min-h-screen bg-gray-50">
       <Header user={user} profile={profile} />
-      <main className="max-w-5xl mx-auto px-4 py-8">{children}</main>
+      <main className="w-full">{children}</main>
     </div>
   );
 }
