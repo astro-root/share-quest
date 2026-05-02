@@ -15,7 +15,6 @@ export default async function MyPage() {
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase.from('profiles').select('role, display_name, username, avatar_url').eq('id', user.id).single();
-  if (profile?.role === 'writer' || profile?.role === 'admin') redirect('/settings');
 
   const selectFields = `
     id, title, content, excerpt, cover_image_url, author_id, status,
